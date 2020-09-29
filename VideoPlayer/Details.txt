@@ -1,0 +1,43 @@
+									Overriding layout files
+
+All of the view components inflate their layouts from corresponding layout files, which are specified in their Javadoc. For example when a PlayerControlView is instantiated, it 
+inflates its layout from exo_player_control_view.xml. To customize these layouts, an application can define layout files with the same names in its own res/layout* directories. 
+These layout files will override the ones provided by the ExoPlayer library.
+
+As an example, suppose we want our playback controls to consist of only a play/pause button positioned in the center of the view. We can achieve this by creating an 
+exo_player_control_view.xml file in the application’s res/layout directory, containing:
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <ImageButton android:id="@id/exo_play"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_gravity="center"
+      android:background="#CC000000"
+      style="@style/ExoMediaButton.Play"/>
+
+  <ImageButton android:id="@id/exo_pause"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_gravity="center"
+      android:background="#CC000000"
+      style="@style/ExoMediaButton.Pause"/>
+
+</FrameLayout>
+
+
+
+										Custom layout files
+
+Overriding a layout file is an excellent solution for changing the layout across the whole of an application, but what if a custom layout is required only in a single place? To 
+achieve this, first define a layout file as though overriding one of the default layouts, but this time giving it a different file name, for example custom_controls.xml. Second, 
+use an attribute to indicate that this layout should be used when inflating the view. For example when using PlayerView, the layout inflated to provide the playback controls can 
+be specified using the controller_layout_id attribute:
+
+<com.google.android.exoplayer2.ui.PlayerView android:id="@+id/player_view"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     app:controller_layout_id="@layout/custom_controls"/>
